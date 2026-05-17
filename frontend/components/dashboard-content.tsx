@@ -4,7 +4,7 @@ import { Search, Server } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { AiTriageView } from "@/components/broadsec/ai-triage-view";
 import { ProgramsView } from "@/components/broadsec/programs-view";
 import { ReportsView } from "@/components/broadsec/reports-view";
@@ -53,10 +53,20 @@ export default function DashboardContent({
   onGlobalSearchChange,
 }: DashboardContentProps) {
   const { health, isLoading, isFallback } = useApiHealth();
+  const { state, isMobile } = useSidebar();
   const meta = pageMeta[activeView];
 
+  const marginLeft = isMobile
+    ? 0
+    : state === "expanded"
+    ? "var(--sidebar-width)"
+    : "var(--sidebar-width-icon)";
+
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div
+      className="flex flex-1 flex-col overflow-hidden min-h-svh bg-background text-foreground transition-[margin-left] duration-200 ease-linear"
+      style={{ marginLeft }}
+    >
       <header className="flex h-16 items-center justify-between border-b border-border px-4 md:px-6">
         <div className="flex min-w-0 items-center gap-4">
           <SidebarTrigger />

@@ -15,17 +15,13 @@ export default function Dashboard({ initialView = "overview" }: { initialView?: 
   }, [initialView])
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <SidebarProvider>
-        <div className="flex h-screen overflow-hidden">
-          <DashboardSidebar activeView={activeView} />
-          <DashboardContent
-            activeView={activeView}
-            globalSearch={globalSearch}
-            onGlobalSearchChange={setGlobalSearch}
-          />
-        </div>
-      </SidebarProvider>
-    </div>
+    <SidebarProvider>
+      <DashboardSidebar activeView={activeView} />
+      <DashboardContent
+        activeView={activeView}
+        globalSearch={globalSearch}
+        onGlobalSearchChange={setGlobalSearch}
+      />
+    </SidebarProvider>
   )
 }
