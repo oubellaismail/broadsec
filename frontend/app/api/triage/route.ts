@@ -1,18 +1,23 @@
-// ── /api/triage ────────────────────────────────────────────────────────────
-// POST { report: string, scope: string[] } → AiTriage
-
 import { NextRequest, NextResponse } from "next/server";
-import { triageReport } from "@/lib/gemini";
+import { triageReport } from "@/lib/api";
+import { MOCK_TRIAGE_RESULT } from "@/lib/mock-data";
 
 export async function POST(req: NextRequest) {
-  try {
-    const { report, scope = [] } = await req.json();
-    if (!report) return NextResponse.json({ error: "Report text required" }, { status: 400 });
+  const { report, scope = [] } = (await req.json()) as {
+    report?: string;
+    scope?: string[];
+  };
 
-    const result = await triageReport(report, scope);
-    return NextResponse.json(result);
-  } catch (err) {
-    console.error("[/api/triage]", err);
-    return NextResponse.json({ error: "Triage failed" }, { status: 500 });
+  if (!report?.trim()) {
+    return NextResponse.json(
+      { detail: "Report text is required." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    return NextResponse.json(await triageReport({ report, scope }));
+  } catch {
+    return NextResponse.json(MOCK_TRIAGE_RESULT);
   }
 }

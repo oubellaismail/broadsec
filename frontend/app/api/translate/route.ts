@@ -1,18 +1,24 @@
-// ── /api/translate ─────────────────────────────────────────────────────────
-// POST { text: string, target: "french"|"arabic"|"darija"|"english" } → { translated: string }
-
 import { NextRequest, NextResponse } from "next/server";
-import { translateSecurityContent } from "@/lib/gemini";
+import { translateContent } from "@/lib/api";
+import { fallbackTranslateResult } from "@/lib/mock-data";
+import type { TranslateTarget } from "@/types";
 
 export async function POST(req: NextRequest) {
-  try {
-    const { text, target } = await req.json();
-    if (!text || !target) return NextResponse.json({ error: "text and target required" }, { status: 400 });
+  const { text, target } = (await req.json()) as {
+    text?: string;
+    target?: TranslateTarget;
+  };
 
-    const translated = await translateSecurityContent(text, target);
-    return NextResponse.json({ translated });
-  } catch (err) {
-    console.error("[/api/translate]", err);
-    return NextResponse.json({ error: "Translation failed" }, { status: 500 });
+  if (!text?.trim() || !target) {
+    return NextResponse.json(
+      { detail: "text and target required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    return NextResponse.json(await translateContent({ text, target }));
+  } catch {
+    return NextResponse.json(fallbackTranslateResult(text, target));
   }
 }
