@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BroadSec — Morocco's AI Bug Bounty Platform",
+  title: "BroadSec: Morocco's AI Bug Bounty Platform",
   description: "AI-powered vulnerability disclosure platform for Morocco. Powered by Gemini AI and Google Cloud.",
 };
 
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

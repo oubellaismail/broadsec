@@ -123,72 +123,155 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: #020408;
-    color: #e2e8f0;
+    background: #080604;
+    color: #e8e0d4;
     overflow-x: hidden;
   }
   html {
     @apply font-sans;
   }
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #020408; }
-  ::-webkit-scrollbar-thumb { background: #1a2a3a; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #00f0ff44; }
+  ::-webkit-scrollbar-track { background: #080604; }
+  ::-webkit-scrollbar-thumb { background: #2a1f14; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D4A01744; }
 }
 
-/* ── BroadSec design system ── */
+/* ═══════════════════════════════════════════════════════════════
+   BroadSec × Zellige Design System
+   Colors extracted from Fes medina tilework
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --z-gold:       #D4A017;
+  --z-cobalt:     #1B3A8C;
+  --z-royal:      #2E5FE8;
+  --z-terracotta: #C0533A;
+  --z-emerald:    #1F6B35;
+  --z-teal:       #1A7A6E;
+  --z-bg:         #080604;
+  /* legacy aliases */
+  --zellige-gold:       var(--z-gold);
+  --zellige-teal:       var(--z-teal);
+  --zellige-terracotta: var(--z-terracotta);
+  --zellige-cobalt:     var(--z-cobalt);
+  --zellige-royal:      var(--z-royal);
+  --zellige-emerald:    var(--z-emerald);
+}
+
+/* ── 12-POINTED STAR GEOMETRIC TILE — the Islamic pattern from the vector ── */
 .dot-grid {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpolygon points='85,50 69.3,55.2 80.3,67.5 64.1,64.1 67.5,80.3 55.2,69.3 50,85 44.8,69.3 32.5,80.3 35.9,64.1 19.7,67.5 30.7,55.2 15,50 30.7,44.8 19.7,32.5 35.9,35.9 32.5,19.7 44.8,30.7 50,15 55.2,30.7 67.5,19.7 64.1,35.9 80.3,32.5 69.3,44.8' fill='none' stroke='rgba(212,160,23,0.15)' stroke-width='0.5'/%3E%3Cline x1='85' y1='50' x2='100' y2='50' stroke='rgba(27,58,140,0.12)' stroke-width='0.5'/%3E%3Cline x1='50' y1='85' x2='50' y2='100' stroke='rgba(27,58,140,0.12)' stroke-width='0.5'/%3E%3Cline x1='15' y1='50' x2='0' y2='50' stroke='rgba(27,58,140,0.12)' stroke-width='0.5'/%3E%3Cline x1='50' y1='15' x2='50' y2='0' stroke='rgba(27,58,140,0.12)' stroke-width='0.5'/%3E%3Cline x1='80.3' y1='67.5' x2='100' y2='100' stroke='rgba(192,83,58,0.08)' stroke-width='0.4'/%3E%3Cline x1='19.7' y1='67.5' x2='0' y2='100' stroke='rgba(192,83,58,0.08)' stroke-width='0.4'/%3E%3Cline x1='80.3' y1='32.5' x2='100' y2='0' stroke='rgba(192,83,58,0.08)' stroke-width='0.4'/%3E%3Cline x1='19.7' y1='32.5' x2='0' y2='0' stroke='rgba(192,83,58,0.08)' stroke-width='0.4'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+/* ── ZELLIGE SECTION DIVIDER — 12-star frieze band ── */
+.zellige-divider {
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpolygon points='16,2 24.5,7.5 30,16 24.5,24.5 16,30 7.5,24.5 2,16 7.5,7.5' fill='none' stroke='rgba(212,160,23,0.22)' stroke-width='0.8'/%3E%3Cpolygon points='16,6 22,9.5 26,16 22,22.5 16,26 10,22.5 6,16 10,9.5' fill='none' stroke='rgba(27,58,140,0.15)' stroke-width='0.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='none' stroke='rgba(192,83,58,0.18)' stroke-width='0.5'/%3E%3C/svg%3E");
   background-size: 32px 32px;
+  background-repeat: repeat-x;
+  background-position: center;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* ── ZELLIGE CARD — glass + gold star corners ── */
+.zellige-card {
+  --_zstar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M8,0 L9.4,5.2 L14.6,2.7 L10.8,6.7 L16,8 L10.8,9.3 L14.6,13.3 L9.4,10.8 L8,16 L6.6,10.8 L1.4,13.3 L5.2,9.3 L0,8 L5.2,6.7 L1.4,2.7 L6.6,5.2 Z' fill='rgba(212,160,23,0.35)'/%3E%3C/svg%3E");
+  background-color: rgba(255, 255, 255, 0.03);
+  background-image: var(--_zstar), var(--_zstar), var(--_zstar), var(--_zstar);
+  background-position: top 4px left 4px, top 4px right 4px, bottom 4px left 4px, bottom 4px right 4px;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  border: 1px solid rgba(212,160,23,0.12);
+  backdrop-filter: blur(20px);
 }
 
 .glass {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212,160,23,0.08);
   backdrop-filter: blur(20px);
 }
 
-/* Severity glows */
-.severity-critical { box-shadow: 0 0 20px rgba(255,45,85,0.3);  border-color: rgba(255,45,85,0.4)  !important; }
-.severity-high     { box-shadow: 0 0 20px rgba(255,140,0,0.3);  border-color: rgba(255,140,0,0.4)  !important; }
-.severity-medium   { box-shadow: 0 0 20px rgba(255,200,0,0.2);  border-color: rgba(255,200,0,0.3)  !important; }
-.severity-low      { box-shadow: 0 0 20px rgba(57,255,20,0.2);  border-color: rgba(57,255,20,0.3)  !important; }
+/* ── Severity glows — zellige palette ── */
+.severity-critical { box-shadow: 0 0 20px rgba(192,83,58,0.4);  border-color: rgba(192,83,58,0.5)  !important; }
+.severity-high     { box-shadow: 0 0 20px rgba(212,160,23,0.3); border-color: rgba(212,160,23,0.4) !important; }
+.severity-medium   { box-shadow: 0 0 20px rgba(26,122,110,0.3); border-color: rgba(26,122,110,0.4) !important; }
+.severity-low      { box-shadow: 0 0 20px rgba(31,107,53,0.2);  border-color: rgba(31,107,53,0.3)  !important; }
 
-/* Cyan CTA button */
+/* ── CTA button — zellige royal blue ── */
 .btn-cyan {
   background: transparent;
-  border: 1px solid #00f0ff;
-  color: #00f0ff;
+  border: 1px solid var(--z-royal);
+  color: var(--z-royal);
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(0,240,255,0.1);
+  box-shadow: 0 0 15px rgba(46,95,232,0.15);
 }
 .btn-cyan:hover {
-  background: rgba(0,240,255,0.08);
-  box-shadow: 0 0 30px rgba(0,240,255,0.3);
+  background: rgba(46,95,232,0.1);
+  box-shadow: 0 0 30px rgba(46,95,232,0.35);
   transform: scale(1.02);
 }
 
-/* Terminal blinking cursor */
 @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
 .cursor-blink { animation: blink 1s infinite; }
 
-/* Scan-wave — the unexpected design move, triggered via JS */
+/* ── Scan wave — terracotta sweep ── */
 @keyframes scanwave {
-  0%   { opacity:0; top:-3px; }
+  0%   { opacity:0; transform: translateY(-3px); }
   10%  { opacity:1; }
   90%  { opacity:1; }
-  100% { opacity:0; top:100vh; }
+  100% { opacity:0; transform: translateY(100vh); }
 }
 .scan-wave {
-  position: fixed;
-  left:0; right:0;
+  position: fixed; top: 0; left:0; right:0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #ff2d55 50%, transparent);
+  background: linear-gradient(90deg, transparent, var(--z-terracotta) 30%, var(--z-gold) 50%, var(--z-terracotta) 70%, transparent);
   z-index: 1000;
   pointer-events: none;
   animation: scanwave 0.45s ease-in-out forwards;
+  will-change: transform, opacity;
 }
 
-/* Stat counter entrance */
+/* ── Zellige medallion rotation ── */
+@keyframes zellige-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.zellige-rotate {
+  animation: zellige-spin 80s linear infinite;
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+.animate-float-gentle { animation: float-gentle 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-wave, .animate-float-gentle, .cursor-blink, .count-up, .zellige-rotate { animation: none; }
+}
+
+/* ── Footer zellige band ── */
+.zellige-footer-band {
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cpath d='M20,2 L21.5,7.8 L27,5 L23.5,9.5 L29,10 L23.5,10.5 L27,15 L21.5,12.2 L20,18 L18.5,12.2 L13,15 L16.5,10.5 L11,10 L16.5,9.5 L13,5 L18.5,7.8 Z' fill='none' stroke='rgba(212,160,23,0.2)' stroke-width='0.6'/%3E%3C/svg%3E");
+  background-size: 40px 20px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
+/* ── Navbar scrolled ── */
+.navbar-scrolled { position: relative; }
+.navbar-scrolled::after {
+  content: "";
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='2'%3E%3Cpolygon points='8,0 14,1 8,2 2,1' fill='rgba(212,160,23,0.25)'/%3E%3C/svg%3E");
+  background-size: 16px 2px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
 @keyframes countUp { from{transform:translateY(12px);opacity:0} to{transform:translateY(0);opacity:1} }
 .count-up { animation: countUp 0.7s ease-out forwards; }
