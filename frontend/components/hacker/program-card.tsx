@@ -8,48 +8,51 @@ export function ProgramCard({ program }: { program: HackerProgram }) {
   const primaryScope = program.scopes[0]?.domain ?? "example.ma";
 
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+    <article className="rounded-2xl border border-white/8 bg-white/3 p-5 transition hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/5">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <ProgramIcon tone={program.logoTone} />
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#D4A017]/70">
               Program
             </p>
-            <h2 className="mt-1 text-lg font-bold text-slate-950">{program.name}</h2>
-            <p className="text-sm text-slate-500">{program.companyName}</p>
+            <h2 className="mt-0.5 text-base font-bold text-white">{program.name}</h2>
+            <p className="text-sm text-white/45">{program.companyName}</p>
           </div>
         </div>
         <LightBadge value={program.status}>{program.status}</LightBadge>
       </div>
-      <p className="mt-5 line-clamp-2 text-sm leading-6 text-slate-600">
+
+      <p className="mt-4 line-clamp-2 text-sm leading-6 text-white/50">
         {program.description}
       </p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl bg-slate-50 p-3">
-          <p className="text-xs text-slate-500">Scope</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">{primaryScope}</p>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-xl bg-white/5 p-3">
+          <p className="text-xs text-white/35">Scope</p>
+          <p className="mt-1 text-sm font-semibold text-white/80">{primaryScope}</p>
         </div>
-        <div className="rounded-xl bg-slate-50 p-3">
-          <p className="text-xs text-slate-500">Critical rewards</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
+        <div className="rounded-xl bg-white/5 p-3">
+          <p className="text-xs text-white/35">Critical reward</p>
+          <p className="mt-1 text-sm font-semibold text-[#D4A017]">
             {criticalRange
-              ? `${formatMad.format(criticalRange.minMad)} - ${formatMad.format(criticalRange.maxMad)}`
+              ? `${formatMad.format(criticalRange.minMad)} – ${formatMad.format(criticalRange.maxMad)}`
               : "Reward available"}
           </p>
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm text-slate-500">
-          <ShieldCheck className="h-4 w-4 text-blue-600" />
+
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-sm text-white/40">
+          <ShieldCheck className="h-4 w-4 text-[#D4A017]/60" />
           {program.riskLevel} risk
         </div>
         <Link
           href={`/hacker/programs/${program.id}`}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#D4A017]/15 px-3.5 py-2 text-sm font-semibold text-[#D4A017] transition hover:bg-[#D4A017]/25"
         >
           View
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </article>

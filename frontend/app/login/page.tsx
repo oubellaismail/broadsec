@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   LockKeyhole,
   Mail,
-  ShieldCheck,
+  Shield,
   UserRound,
 } from "lucide-react";
 import { demoUsers, setDemoUser, type DemoRole } from "@/lib/demo-auth";
@@ -29,7 +29,6 @@ function LoginContent() {
   const [role, setRole] = useState<DemoRole>("researcher");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
   const [errors, setErrors] = useState<LoginErrors>({});
 
   const submitLogin = (event: FormEvent<HTMLFormElement>) => {
@@ -38,15 +37,11 @@ function LoginContent() {
     const nextErrors: LoginErrors = {};
     const trimmedEmail = email.trim();
 
-    if (!trimmedEmail) {
-      nextErrors.email = "Enter your email address.";
-    }
-
+    if (!trimmedEmail) nextErrors.email = "Enter your email address.";
     if (!password) {
       nextErrors.password = "Enter your password.";
     } else if (password !== "demo123") {
-      nextErrors.password = "This demo accepts the password demo123.";
-      nextErrors.form = "Use demo123 or choose one of the quick-fill demo buttons.";
+      nextErrors.password = 'Incorrect password — use "demo123".';
     }
 
     setErrors(nextErrors);
@@ -71,131 +66,107 @@ function LoginContent() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-10 text-slate-950">
-      <div className="mx-auto max-w-5xl">
-        <BrandLink />
+    <main className="flex min-h-screen items-center justify-center bg-[#080604] px-4 py-12">
+      {/* Subtle background pattern */}
+      <div className="dot-grid pointer-events-none fixed inset-0 opacity-40" />
 
-        <section className="mt-10 grid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-blue-100/50 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="bg-blue-600 p-8 text-white lg:p-10">
-            <h1 className="text-3xl font-bold">Sign in to BroadSec</h1>
-            <p className="mt-4 leading-7 text-blue-50">
-              Use the demo credentials or enter your own email with the demo password
-              to access the correct BroadSec workspace.
-            </p>
-            <div id="demo-credentials" className="mt-8 space-y-4 rounded-2xl bg-white/10 p-5">
-              <p className="text-sm font-semibold text-blue-50">Demo credentials</p>
-              <CredentialLine label="Researcher" email="researcher@broadsec.demo" />
-              <CredentialLine label="Admin" email="admin@broadsec.demo" />
-            </div>
-          </div>
+      <div className="relative w-full max-w-md">
+        {/* Brand */}
+        <Link
+          href="/"
+          className="mb-8 flex items-center justify-center gap-2 text-[#D4A017]"
+        >
+          <Shield className="h-6 w-6" />
+          <span className="text-lg font-bold tracking-wide">BroadSec</span>
+        </Link>
 
-          <form className="space-y-5 p-6 sm:p-8" onSubmit={submitLogin} noValidate>
-            <div>
-              <h2 className="text-2xl font-bold text-slate-950">Login</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Demo authentication is stored only in your browser for this session.
-              </p>
-            </div>
+        {/* Card */}
+        <div className="rounded-2xl border border-white/8 bg-white/3 p-8 shadow-2xl backdrop-blur-sm">
+          <h1 className="text-2xl font-bold text-white">Sign in</h1>
+          <p className="mt-1.5 text-sm text-white/50">
+            Choose your role, then sign in with the demo credentials.
+          </p>
 
-            {errors.form ? (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
+          <form className="mt-6 space-y-5" onSubmit={submitLogin} noValidate>
+            {/* Error banner */}
+            {errors.form && (
+              <div className="rounded-lg border border-[#C0533A]/30 bg-[#C0533A]/10 px-4 py-3 text-sm text-[#C0533A]">
                 {errors.form}
               </div>
-            ) : null}
+            )}
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            {/* Role picker */}
+            <div className="grid grid-cols-2 gap-3">
               <RoleOption
                 active={role === "researcher"}
-                icon={<UserRound className="h-5 w-5" />}
+                icon={<UserRound className="h-4 w-4" />}
                 label="Researcher"
                 description="Researcher portal"
-                onClick={() => setRole("researcher")}
+                onClick={() => quickFill("researcher")}
               />
               <RoleOption
                 active={role === "admin"}
-                icon={<Building2 className="h-5 w-5" />}
-                label="Admin / Company"
-                description="Company console"
-                onClick={() => setRole("admin")}
+                icon={<Building2 className="h-4 w-4" />}
+                label="Admin"
+                description="Admin console"
+                onClick={() => quickFill("admin")}
               />
             </div>
 
+            {/* Email */}
             <Field label="Email" error={errors.email}>
               <div className="relative">
-                <Mail className="absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-white/30" />
                 <input
                   type="email"
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm text-slate-950 outline-none focus:border-blue-500"
-                  placeholder={role === "admin" ? "admin@broadsec.demo" : "researcher@broadsec.demo"}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={
+                    role === "admin"
+                      ? "admin@broadsec.demo"
+                      : "researcher@broadsec.demo"
+                  }
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 text-sm text-white placeholder:text-white/25 outline-none focus:border-[#D4A017]/50 focus:bg-white/8 transition-colors"
                   aria-invalid={Boolean(errors.email)}
                 />
               </div>
             </Field>
 
+            {/* Password */}
             <Field label="Password" error={errors.password}>
               <div className="relative">
-                <LockKeyhole className="absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
+                <LockKeyhole className="absolute left-3 top-3 h-4 w-4 text-white/30" />
                 <input
                   type="password"
                   value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm text-slate-950 outline-none focus:border-blue-500"
-                  placeholder="demo123"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 text-sm text-white placeholder:text-white/25 outline-none focus:border-[#D4A017]/50 focus:bg-white/8 transition-colors"
                   aria-invalid={Boolean(errors.password)}
                 />
               </div>
             </Field>
 
-            <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-              <label className="inline-flex items-center gap-2 text-slate-600">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(event) => setRememberMe(event.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                />
-                Remember me
-              </label>
-              <a href="#demo-credentials" className="font-semibold text-blue-700 hover:text-blue-800">
-                Forgot password?
-              </a>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => quickFill("researcher")}
-                className="rounded-xl border border-blue-200 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-50"
-              >
-                Use Researcher Demo
-              </button>
-              <button
-                type="button"
-                onClick={() => quickFill("admin")}
-                className="rounded-xl border border-blue-200 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-50"
-              >
-                Use Admin Demo
-              </button>
-            </div>
-
+            {/* Submit */}
             <button
               type="submit"
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white hover:bg-blue-700"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#D4A017] text-sm font-semibold text-[#080604] transition hover:bg-[#b8880f] active:scale-[0.98]"
             >
               Sign in
               <CheckCircle2 className="h-4 w-4" />
             </button>
-
-            <p className="text-center text-sm text-slate-500">
-              New to BroadSec?{" "}
-              <Link href="/register" className="font-semibold text-blue-700 hover:text-blue-800">
-                Create a demo account
-              </Link>
-            </p>
           </form>
-        </section>
+
+          <p className="mt-5 text-center text-sm text-white/40">
+            New to BroadSec?{" "}
+            <Link
+              href="/register"
+              className="font-semibold text-[#D4A017] hover:text-[#b8880f]"
+            >
+              Create a demo account
+            </Link>
+          </p>
+        </div>
       </div>
     </main>
   );
@@ -203,32 +174,11 @@ function LoginContent() {
 
 function LoginFallback() {
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-10 text-slate-950">
-      <div className="mx-auto max-w-5xl">
-        <BrandLink />
-        <section className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-blue-100/50">
-          <p className="text-sm font-semibold text-slate-600">Loading login form...</p>
-        </section>
+    <main className="flex min-h-screen items-center justify-center bg-[#080604] px-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/8 bg-white/3 p-8">
+        <p className="text-sm text-white/40">Loading…</p>
       </div>
     </main>
-  );
-}
-
-function BrandLink() {
-  return (
-    <Link href="/" className="inline-flex items-center gap-2 font-semibold text-blue-700">
-      <ShieldCheck className="h-5 w-5" />
-      BroadSec
-    </Link>
-  );
-}
-
-function CredentialLine({ label, email }: { label: string; email: string }) {
-  return (
-    <div className="rounded-xl bg-white/10 p-3 text-sm text-blue-50">
-      <p className="font-semibold">{label}</p>
-      <p className="mt-1 break-words">{email} / demo123</p>
-    </div>
   );
 }
 
@@ -249,19 +199,23 @@ function RoleOption({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-2xl border p-4 text-left transition ${
+      className={`rounded-xl border p-3.5 text-left transition ${
         active
-          ? "border-blue-300 bg-blue-50 text-blue-950"
-          : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50"
+          ? "border-[#D4A017]/40 bg-[#D4A017]/10 text-white"
+          : "border-white/8 bg-white/3 text-white/50 hover:border-white/15 hover:text-white/80"
       }`}
     >
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
+      <div className="flex items-center gap-2.5">
+        <span
+          className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+            active ? "bg-[#D4A017]/20 text-[#D4A017]" : "bg-white/5 text-white/30"
+          }`}
+        >
           {icon}
         </span>
         <span>
-          <span className="block font-bold">{label}</span>
-          <span className="block text-xs text-slate-500">{description}</span>
+          <span className="block text-sm font-semibold">{label}</span>
+          <span className="block text-xs text-white/35">{description}</span>
         </span>
       </div>
     </button>
@@ -279,9 +233,11 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
+      <span className="mb-1.5 block text-sm font-medium text-white/60">{label}</span>
       {children}
-      {error ? <span className="mt-2 block text-sm text-red-600">{error}</span> : null}
+      {error && (
+        <span className="mt-1.5 block text-xs text-[#C0533A]">{error}</span>
+      )}
     </label>
   );
 }

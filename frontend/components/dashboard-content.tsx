@@ -67,12 +67,12 @@ export default function DashboardContent({
       className="flex flex-1 flex-col overflow-hidden min-h-svh bg-background text-foreground transition-[margin-left] duration-200 ease-linear"
       style={{ marginLeft }}
     >
-      <header className="flex h-16 items-center justify-between border-b border-border px-4 md:px-6">
-        <div className="flex min-w-0 items-center gap-4">
-          <SidebarTrigger />
+      <header className="flex h-14 items-center justify-between border-b border-white/8 bg-[#080604]/90 px-4 backdrop-blur md:px-6">
+        <div className="flex min-w-0 items-center gap-3">
+          <SidebarTrigger className="text-white/50 hover:bg-white/5 hover:text-white" />
           <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold">{meta.title}</h1>
-            <p className="hidden truncate text-xs text-muted-foreground md:block">
+            <h1 className="truncate text-base font-bold text-white">{meta.title}</h1>
+            <p className="hidden truncate text-xs text-white/40 md:block">
               {meta.subtitle}
             </p>
           </div>
@@ -81,29 +81,31 @@ export default function DashboardContent({
           <Badge
             variant="outline"
             className={cn(
-              "hidden gap-2 border md:inline-flex",
+              "hidden gap-1.5 border text-xs md:inline-flex",
               isFallback
-                ? "border-amber-500/20 bg-amber-500/10 text-amber-200"
-                : "border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
+                ? "border-[#C0533A]/30 bg-[#C0533A]/10 text-[#C0533A]"
+                : "border-[#1F6B35]/40 bg-[#1F6B35]/10 text-[#4ade80]"
             )}
             title={isFallback ? "Using mock fallback data" : `${health.service} ${health.version}`}
           >
-            <Server className="h-3.5 w-3.5" />
+            <Server className="h-3 w-3" />
             {isLoading ? "Checking API" : isFallback ? "Mock fallback" : "API online"}
           </Badge>
           <div className="relative hidden lg:block">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/30" />
             <Input
               type="search"
               value={globalSearch}
               onChange={(event) => onGlobalSearchChange(event.target.value)}
               placeholder="Search reports, domains, reporters..."
-              className="w-80 rounded-md bg-inputBg pl-8 text-sm"
+              className="w-72 rounded-xl border-white/10 bg-white/5 pl-8 text-sm text-white placeholder:text-white/25 focus-visible:border-[#D4A017]/40 focus-visible:ring-0"
             />
           </div>
-          <Avatar>
+          <Avatar className="h-8 w-8">
             <AvatarImage src="" alt="User" />
-            <AvatarFallback>BS</AvatarFallback>
+            <AvatarFallback className="bg-[#D4A017]/15 text-[#D4A017] text-xs font-semibold">
+              BS
+            </AvatarFallback>
           </Avatar>
         </div>
       </header>
@@ -123,7 +125,7 @@ export default function DashboardContent({
 
 function AdminSettingsView() {
   return (
-    <div className="max-w-3xl rounded-lg border border-border bg-cardBg p-6">
+    <div className="max-w-3xl rounded-xl border border-white/8 bg-white/3 p-6">
       <h2 className="text-xl font-bold">Admin Settings</h2>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">
         Demo authentication is enabled for this hackathon build. Real account,

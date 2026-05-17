@@ -23,6 +23,7 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { getDemoUser } from "@/lib/demo-auth";
 import { cn } from "@/lib/utils";
 import type { DashboardView } from "./dashboard";
 
@@ -43,34 +44,43 @@ const navItems: Array<{
   { id: "scanner", label: "Scanner", icon: ScanLine, href: "/admin/scanner" },
 ];
 
-export default function DashboardSidebar({
-  activeView,
-}: DashboardSidebarProps) {
+export default function DashboardSidebar({ activeView }: DashboardSidebarProps) {
   const { state, setOpenMobile } = useSidebar();
-
-  const commonButtonClass =
-    "hover:bg-accentHover hover:text-white transition-colors";
+  const user = getDemoUser();
+  const initials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
+    : "BS";
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="bg-sidebarBg">
-      <SidebarHeader className="flex justify-center py-5 md:items-center">
+    <Sidebar
+      variant="sidebar"
+      collapsible="icon"
+      className="border-r border-white/8 bg-[#0e0b08]"
+    >
+      {/* Brand */}
+      <SidebarHeader className="py-5">
         <div
           className={cn(
-            "flex gap-2 text-white transition-all",
-            state === "collapsed" ? "justify-center" : "items-center px-4"
+            "flex gap-2.5 text-white transition-all",
+            state === "collapsed" ? "justify-center" : "items-center px-3"
           )}
         >
-          <Shield className="h-6 w-6 text-accent" />
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D4A017]/15 text-[#D4A017]">
+            <Shield className="h-4 w-4" />
+          </div>
           {state === "expanded" && (
             <div className="leading-tight">
-              <span className="block text-lg font-bold">BroadSec</span>
-              <span className="text-xs text-muted-foreground">Admin Console</span>
+              <span className="block text-sm font-bold text-white">BroadSec</span>
+              <span className="block text-xs text-white/40">Admin Console</span>
             </div>
           )}
         </div>
       </SidebarHeader>
-      <SidebarSeparator />
-      <SidebarContent className="mt-3 px-2">
+
+      <SidebarSeparator className="bg-white/8" />
+
+      {/* Nav */}
+      <SidebarContent className="mt-2 px-2">
         <SidebarMenu>
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -83,8 +93,9 @@ export default function DashboardSidebar({
                   tooltip={item.label}
                   isActive={isActive}
                   className={cn(
-                    commonButtonClass,
-                    isActive && "bg-accent text-white hover:bg-accentHover"
+                    "transition-colors text-white/55 hover:bg-white/5 hover:text-white",
+                    isActive &&
+                      "bg-[#D4A017]/15 text-[#D4A017] hover:bg-[#D4A017]/20 hover:text-[#D4A017]"
                   )}
                 >
                   <Link href={item.href} onClick={() => setOpenMobile(false)}>
@@ -97,10 +108,16 @@ export default function DashboardSidebar({
           })}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="mt-auto">
+
+      {/* Footer */}
+      <SidebarFooter className="mt-auto border-t border-white/8">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Settings" className={commonButtonClass}>
+            <SidebarMenuButton
+              asChild
+              tooltip="Settings"
+              className="text-white/55 transition-colors hover:bg-white/5 hover:text-white"
+            >
               <Link href="/admin/settings" onClick={() => setOpenMobile(false)}>
                 <Settings />
                 <span>Settings</span>
@@ -111,20 +128,27 @@ export default function DashboardSidebar({
             <SignOutButton variant="dark" className="w-full justify-start" />
           </SidebarMenuItem>
         </SidebarMenu>
+
         <div
           className={cn(
-            "flex items-center gap-2 py-4 text-white transition-all",
+            "flex items-center gap-2.5 py-3 px-1 transition-all",
             state === "collapsed" ? "justify-center" : "justify-start"
           )}
         >
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="" alt="User" />
-            <AvatarFallback>BS</AvatarFallback>
+          <Avatar className="h-8 w-8 shrink-0">
+            <AvatarImage src="" alt={user?.name} />
+            <AvatarFallback className="bg-[#D4A017]/15 text-[#D4A017] text-xs font-semibold">
+              {initials}
+            </AvatarFallback>
           </Avatar>
           {state === "expanded" && (
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">BroadSec Admin</span>
-              <span className="text-xs text-[#A1A1AA]">admin@broadsec.demo</span>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-sm font-medium text-white">
+                {user?.name ?? "BroadSec Admin"}
+              </span>
+              <span className="truncate text-xs text-white/40">
+                {user?.email ?? "admin@broadsec.demo"}
+              </span>
             </div>
           )}
         </div>

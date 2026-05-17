@@ -3,75 +3,76 @@ import { LightBadge, formatMad } from "@/components/hacker/hacker-ui";
 import { DEMO_HACKER_USER, HACKER_PROGRAMS, HACKER_REWARDS, SUBMITTED_REPORTS } from "@/lib/mock-data";
 
 export default function HackerRewardsPage() {
-  const totalEarned = HACKER_REWARDS.reduce((total, reward) => total + reward.amountMad, 0);
+  const totalEarned = HACKER_REWARDS.reduce((total, r) => total + r.amountMad, 0);
   const pendingRewards = HACKER_REWARDS.reduce(
-    (total, reward) => total + (reward.status === "Pending" ? reward.amountMad : 0),
+    (total, r) => total + (r.status === "Pending" ? r.amountMad : 0),
     0
   );
   const paidRewards = HACKER_REWARDS.reduce(
-    (total, reward) => total + (reward.status === "Paid" ? reward.amountMad : 0),
+    (total, r) => total + (r.status === "Paid" ? r.amountMad : 0),
     0
   );
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-950">Rewards</h1>
-        <p className="mt-2 text-slate-600">
+        <h1 className="text-2xl font-bold text-white">Rewards</h1>
+        <p className="mt-1.5 text-sm text-white/45">
           Monitor paid rewards, pending payouts, and points from accepted reports.
         </p>
       </div>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard icon={Award} label="Total earned rewards" value={formatMad.format(totalEarned)} />
-        <MetricCard icon={Clock3} label="Pending rewards" value={formatMad.format(pendingRewards)} />
-        <MetricCard icon={CreditCard} label="Paid rewards" value={formatMad.format(paidRewards)} />
-        <MetricCard icon={Star} label="Points" value={String(DEMO_HACKER_USER.points)} />
+        <MetricCard icon={Award}      label="Total earned"   value={formatMad.format(totalEarned)} />
+        <MetricCard icon={Clock3}     label="Pending"        value={formatMad.format(pendingRewards)} />
+        <MetricCard icon={CreditCard} label="Paid out"       value={formatMad.format(paidRewards)} />
+        <MetricCard icon={Star}       label="Points"         value={String(DEMO_HACKER_USER.points)} />
       </section>
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 p-5">
-          <h2 className="text-xl font-bold text-slate-950">Reward History</h2>
-          <p className="mt-1 text-sm text-slate-500">
+      <section className="overflow-hidden rounded-2xl border border-white/8 bg-white/3">
+        <div className="border-b border-white/8 p-5">
+          <h2 className="text-lg font-bold text-white">Reward History</h2>
+          <p className="mt-1 text-sm text-white/40">
             Rewards are tied to accepted reports and program severity ranges.
           </p>
         </div>
-        <table className="w-full min-w-[760px] text-left text-sm">
-          <thead className="bg-slate-50 text-slate-500">
-            <tr>
-              <th className="px-5 py-4 font-semibold">Report</th>
-              <th className="px-5 py-4 font-semibold">Program</th>
-              <th className="px-5 py-4 font-semibold">Amount</th>
-              <th className="px-5 py-4 font-semibold">Status</th>
-              <th className="px-5 py-4 font-semibold">Points</th>
-              <th className="px-5 py-4 font-semibold">Created</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {HACKER_REWARDS.map((reward) => {
-              const report = SUBMITTED_REPORTS.find((item) => item.id === reward.reportId);
-              const program = HACKER_PROGRAMS.find((item) => item.id === report?.programId);
-
-              return (
-                <tr key={reward.id} className="hover:bg-slate-50">
-                  <td className="px-5 py-4">
-                    <p className="font-semibold text-slate-950">{report?.title}</p>
-                    <p className="mt-1 text-xs text-slate-500">{reward.reportId}</p>
-                  </td>
-                  <td className="px-5 py-4 text-slate-600">{program?.name}</td>
-                  <td className="px-5 py-4 font-semibold text-slate-950">
-                    {formatMad.format(reward.amountMad)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <LightBadge value={reward.status}>{reward.status}</LightBadge>
-                  </td>
-                  <td className="px-5 py-4 text-slate-600">{reward.points}</td>
-                  <td className="px-5 py-4 text-slate-600">{formatDate(reward.createdAt)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[760px] text-left text-sm">
+            <thead className="border-b border-white/8 text-white/40">
+              <tr>
+                <th className="px-5 py-3 font-semibold">Report</th>
+                <th className="px-5 py-3 font-semibold">Program</th>
+                <th className="px-5 py-3 font-semibold">Amount</th>
+                <th className="px-5 py-3 font-semibold">Status</th>
+                <th className="px-5 py-3 font-semibold">Points</th>
+                <th className="px-5 py-3 font-semibold">Date</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {HACKER_REWARDS.map((reward) => {
+                const report = SUBMITTED_REPORTS.find((r) => r.id === reward.reportId);
+                const program = HACKER_PROGRAMS.find((p) => p.id === report?.programId);
+                return (
+                  <tr key={reward.id} className="transition hover:bg-white/3">
+                    <td className="px-5 py-4">
+                      <p className="font-semibold text-white">{report?.title}</p>
+                      <p className="mt-0.5 text-xs text-white/35">{reward.reportId}</p>
+                    </td>
+                    <td className="px-5 py-4 text-white/55">{program?.name}</td>
+                    <td className="px-5 py-4 font-semibold text-[#D4A017]">
+                      {formatMad.format(reward.amountMad)}
+                    </td>
+                    <td className="px-5 py-4">
+                      <LightBadge value={reward.status}>{reward.status}</LightBadge>
+                    </td>
+                    <td className="px-5 py-4 text-white/55">{reward.points}</td>
+                    <td className="px-5 py-4 text-white/55">{formatDate(reward.createdAt)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   );
@@ -87,12 +88,12 @@ function MetricCard({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+    <div className="rounded-2xl border border-white/8 bg-white/3 p-5">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#D4A017]/15 text-[#D4A017]">
         <Icon className="h-5 w-5" />
       </div>
-      <p className="mt-4 text-sm text-slate-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-slate-950">{value}</p>
+      <p className="mt-4 text-sm text-white/45">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-white">{value}</p>
     </div>
   );
 }
