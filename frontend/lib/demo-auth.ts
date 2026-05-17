@@ -39,9 +39,16 @@ export function getDemoUser(): DemoUser | null {
   }
 }
 
-export function setDemoUser(role: DemoRole) {
+export function setDemoUser(role: DemoRole, overrides?: Partial<Pick<DemoUser, "name" | "email">>) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(DEMO_AUTH_KEY, JSON.stringify(demoUsers[role]));
+  window.localStorage.setItem(
+    DEMO_AUTH_KEY,
+    JSON.stringify({
+      ...demoUsers[role],
+      ...overrides,
+      role,
+    })
+  );
 }
 
 export function clearDemoUser() {

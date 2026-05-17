@@ -124,7 +124,7 @@ export default function DashboardSidebar({
           {state === "expanded" && (
             <div className="flex flex-col">
               <span className="text-sm font-medium">BroadSec Admin</span>
-              <span className="text-xs text-[#A1A1AA]">admin@broadsec.local</span>
+              <span className="text-xs text-[#A1A1AA]">admin@broadsec.demo</span>
             </div>
           )}
         </div>
